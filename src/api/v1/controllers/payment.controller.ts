@@ -29,7 +29,7 @@ const payToMerch = async (req:Request, res:Response, next:NextFunction) => {
     })
 }
 
-const getMerch =async (req:Request, res:Response, next: NextFunction) => {
+const getMerch = async (req:Request, res:Response, next: NextFunction) => {
     try{
 
         return res.status(200).json({
