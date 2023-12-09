@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Page</title>
+  <!-- Include Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+
+  <div class="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+    <h1 class="text-2xl font-bold mb-4">Payment Page</h1>
+    
+    <form>
+      <div class="mb-4">
+        <label for="itemName" class="block text-sm font-semibold text-gray-600">Item Name:</label>
+        <input type="text" id="itemName" name="itemName" placeholder="Dummy Product" 
+               class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+      </div>
+      
+      <div class="mb-6">
+        <label for="amount" class="block text-sm font-semibold text-gray-600">Amount:</label>
+        <input type="number" id="amount" name="amount" placeholder="50" 
+               class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
+      </div>
+      
+      <button type="submit"  id="payment-button" class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none">
+        Pay with Khalti
+      </button>
+    </form>
+  </div>
+    <!-- Paste this code anywhere in you body tag -->
+    <script>
+
+        var config = {
+            // replace the publicKey with yours
+            "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
+            "productIdentity": "1234567890",
+            "productName": "Dragon",
+            "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+            "paymentPreference": [
+                "KHALTI",
+                "EBANKING",
+                "MOBILE_BANKING",
+                "CONNECT_IPS",
+                "SCT",
+                ],
+            "eventHandler": {
+                onSuccess (payload) {
+                    // hit merchant api for initiating verfication
+                    console.log(payload);
+                },
+                onError (error) {
+                    console.log(error);
+                },
+                onClose () {
+                    console.log('widget is closing');
+                }
+            }
+        };
+
+        var checkout = new KhaltiCheckout(config);
+        var btn = document.getElementById("payment-button");
+        btn.onclick = function (event ) {
+            var amountToPay = parseInt(document.getElementById("amount").value)
+            event.preventDefault();
+            // minimum transaction amount must be 10, i.e 1000 in paisa.
+            checkout.show({amount: amountToPay});
+        }
+    </script>
+</body>
+</html>
