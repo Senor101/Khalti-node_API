@@ -54,6 +54,27 @@ const payToMerch = async (req:Request, res:Response, next:NextFunction) => {
     })
 }
 
+const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
+    try{
+        const {token,amount}:{token:String, amount: Number} = req.body;
+        let config = {
+            headers : {
+                "Authorization" : `Key ${process.env.KHALTI_SECRET_KEY}`
+            }
+        }
+        const resBody = await axios.post("https://khalti.com/api/v2/payment/verify/",{
+            "token": token,
+            "amount": amount
+        }, config)
+        console.log(resBody);
+        return res.json({
+            message:"done"
+        })
+    }catch(error){
+        next(error)
+    }
+}
+
 const getMerch = async (req:Request, res:Response, next: NextFunction) => {
     try{
 
@@ -65,4 +86,4 @@ const getMerch = async (req:Request, res:Response, next: NextFunction) => {
     }   
 }
 
-export default {payToMerch,getMerch}
+export default {payToMerch,getMerch,verifyPayment}

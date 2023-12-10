@@ -6,6 +6,7 @@
   <!-- Include Tailwind CSS -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
   <script src="https://khalti.s3.ap-south-1.amazonaws.com/KPG/dist/2020.12.17.0.0.0/khalti-checkout.iffe.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body class="bg-gray-100 p-4">
 
@@ -33,6 +34,10 @@
     <!-- Paste this code anywhere in you body tag -->
     <script>
 
+        async function verifyPayment(payload) {
+            await axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
+        }
+
         var config = {
             // replace the publicKey with yours
             "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
@@ -50,6 +55,8 @@
                 onSuccess (payload) {
                     // hit merchant api for initiating verfication
                     console.log(payload);
+                    verifyPayment(payload);
+                    console.alert("verified")
                 },
                 onError (error) {
                     console.log(error);
@@ -63,7 +70,7 @@
         var checkout = new KhaltiCheckout(config);
         var btn = document.getElementById("payment-button");
         btn.onclick = function (event ) {
-            var amountToPay = parseInt(document.getElementById("amount").value)
+            var amountToPay = (parseInt(document.getElementById("amount").value))*100;
             event.preventDefault();
             // minimum transaction amount must be 10, i.e 1000 in paisa.
             checkout.show({amount: amountToPay});

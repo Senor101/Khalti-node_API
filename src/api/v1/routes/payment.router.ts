@@ -8,4 +8,6 @@ router.get("/",paymentController.getMerch);
 
 router.post("/",paymentController.payToMerch);
 
+router.post("/verify-payment",paymentController.verifyPayment)
+
 export default router;
