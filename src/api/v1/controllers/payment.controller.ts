@@ -56,6 +56,8 @@ const payToMerch = async (req:Request, res:Response, next:NextFunction) => {
 
 const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     try{
+        console.log("Inside verify payment");
+        // console.log(req.body);
         const {token,amount}:{token:String, amount: Number} = req.body;
         let config = {
             headers : {
@@ -66,9 +68,9 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
             "token": token,
             "amount": amount
         }, config)
-        console.log(resBody);
+        console.log(resBody.data);
         return res.json({
-            message:"done"
+            message:"Payment Successful"
         })
     }catch(error){
         next(error)
