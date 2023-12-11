@@ -38,7 +38,7 @@
     <script>
 
         async function verifyPayment(payload) {
-            await axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
+            axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
             .then(response => {
                 console.log(response)
                 alert(response.data.message);
@@ -51,9 +51,9 @@
 
         var config = {
             // replace the publicKey with yours
-            "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
+            "publicKey": "live_public_key_9853c48bef3443a6a130a942061d54d0",
             "productIdentity": "1234567890",
-            "productName": "Dragon",
+            "productName": "product1",
             "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
             "paymentPreference": [
                 "KHALTI",

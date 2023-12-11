@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import request from "request";
 import dotenv from "dotenv";
 import axios from "axios";
+import path from "path";
 dotenv.config();
 
 
@@ -79,10 +80,7 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
 
 const getMerch = async (req:Request, res:Response, next: NextFunction) => {
     try{
-
-        return res.status(200).json({
-            body:null
-        })
+        return res.sendFile(path.join(__dirname + "/../../../../views/payment.html"))
     }catch(error){
         next(error);
     }   
