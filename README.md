@@ -38,4 +38,4 @@ npm start
 - Take a reference of this project to implement *khalti* in your next dream project with your own desired business logic.
 
 ## License
-This project is licensed under [MIT License](https://github.com/Senor101/Khalti-node_API?tab=MIT-1-ov-file)
+This project is licensed under [MIT License](LICENSE)
