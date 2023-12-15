@@ -33,6 +33,8 @@ npm install
 npm start
 ```
 
+5. Head over to `http://localhost:8000/api/v1/` and explore the backend service.
+
 ## Usage
 - Include the payment gateway integration modules into your nodejs project by importing the necessary components.
 - Take a reference of this project to implement *khalti* in your next dream project with your own desired business logic.
