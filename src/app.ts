@@ -5,7 +5,7 @@ import apiRouterv1 from "./api/v1/api";
 const app:Express = express();
 
 
-// app.use(cors());
+app.use(cors());
 app.use(express.static('view'))
 app.use(express.json());
 
