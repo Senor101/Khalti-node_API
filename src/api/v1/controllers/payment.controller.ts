@@ -28,12 +28,5 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     }
 }
 
-const getMerch = async (req:Request, res:Response, next: NextFunction) => {
-    try{
-        return res.sendFile(path.join(__dirname + "/../../../../views/payment.html"))
-    }catch(error){
-        next(error);
-    }   
-}
 
-export default {getMerch,verifyPayment}
+export default {verifyPayment}
