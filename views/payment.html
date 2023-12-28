@@ -23,13 +23,13 @@
     <form>
       <div class="mb-4">
         <label for="itemName" class="block text-sm font-semibold text-gray-600">Item Name:</label>
-        <input type="text" id="itemName" name="itemName" placeholder="Dummy Product" 
+        <input type="text" id="itemName" name="itemName" value="Dummy Product" readonly
                class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
       </div>
       
       <div class="mb-6">
         <label for="amount" class="block text-sm font-semibold text-gray-600">Amount:</label>
-        <input type="number" id="amount" name="amount" placeholder="10" 
+        <input type="number" id="amount" name="amount" value="10" readonly
                class="w-full mt-1 px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500" />
       </div>
       
@@ -40,6 +40,15 @@
   </div>
     <!-- Paste this code anywhere in you body tag -->
     <script>
+        function getParameterByName(name) {
+            let url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
 
         async function verifyPayment(payload) {
             axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
@@ -90,6 +99,12 @@
                 }
             }
         };
+        var productName = getParameterByName("name");
+        var productAmount = getParameterByName("price");
+        console.log(productAmount, productName)
+
+        document.getElementById("itemName").value = productName || "Dummy";
+        document.getElementById("amount").value = productAmount || "10";
 
         var checkout = new KhaltiCheckout(config);
         var btn = document.getElementById("payment-button");
