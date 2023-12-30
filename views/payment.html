@@ -49,6 +49,12 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+        var productName = getParameterByName("name") || "Dummy";
+        var productAmount = getParameterByName("price") || 10;
+        // console.log(productAmount, productName)
+
+        document.getElementById("itemName").value = productName;
+        document.getElementById("amount").value = productAmount;
 
         async function verifyPayment(payload) {
             axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
@@ -75,8 +81,7 @@
             // replace the publicKey with yours
             "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
             "productIdentity": "1234567890",
-            "productName": "product1",
-            "productUrl": "http://gameofthrones.wikia.com/wiki/Dragons",
+            "productName": `${productName}`,
             "paymentPreference": [
                 "KHALTI",
                 "EBANKING",
@@ -99,12 +104,7 @@
                 }
             }
         };
-        var productName = getParameterByName("name");
-        var productAmount = getParameterByName("price");
-        // console.log(productAmount, productName)
 
-        document.getElementById("itemName").value = productName || "Dummy";
-        document.getElementById("amount").value = productAmount || "10";
 
         var checkout = new KhaltiCheckout(config);
         var btn = document.getElementById("payment-button");

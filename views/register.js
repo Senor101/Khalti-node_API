@@ -23,26 +23,20 @@ signupForm.addEventListener('submit', async function (event) {
     };
     try {
         response = await axios.post('http://localhost:8000/api/v1/users/register', userData);
-        console.log(response);
-        if(response.status == 200)
+        console.log(response)
+        if(response.status === 201)
         { 
             Swal.fire({
             title: "Success!",
             text: `${response.data.message}`,
             icon: "success"
           });
-        }else {
-            Swal.fire({
-            title: "ERROR!",
-            text: `${response.data.error}`,
-            icon: "error"
-            });
         }
     } catch (error) {
         Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `Something went wrong`,
-          });
+            title: "ERROR!",
+            text: `${error.response.data.error}`,
+            icon: "error"
+            });
     }
 });
