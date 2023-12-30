@@ -31,5 +31,21 @@ app.get("/payment", (req:Request, res:Response, next: NextFunction) => {
     }
 })
 
+app.get("/register", (req:Request, res:Response, next: NextFunction) => {
+    try{
+        return res.sendFile(path.join(__dirname,"/../views/register.html"))
+    }catch(error){
+        next(error)
+    }
+})
+
+app.get("/login", (req:Request, res:Response, next: NextFunction) => {
+    try{
+        return res.sendFile(path.join(__dirname,"/../views/login.html"))
+    }catch(error){
+        next(error)
+    }
+})
+
 
 export default app;

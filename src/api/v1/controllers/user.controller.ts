@@ -49,6 +49,17 @@ const registerUser =async (req:Request, res:Response, next:NextFunction) => {
 
 const loginUser =async (req:Request, res:Response, next:NextFunction) => {
     try {
+        const {email,password} : {email : string, password: string} = req.body;
+        const userExists = await prisma.user.findUnique({
+            where : {
+                email: email
+            }
+        });
+        if(!userExists) {
+            return
+            // return throwError("Invalid email or password", 404)
+        }
+        const isPasswordValid = await bcrypt.compare(password,userExists.password)
     }
     catch(error){
         console.log(error)
