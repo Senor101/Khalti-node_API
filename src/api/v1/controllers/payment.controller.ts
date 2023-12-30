@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import request from "request";
 import dotenv from "dotenv";
 import axios from "axios";
-import path from "path";
+import prisma from "../../../../prisma/prisma.client";
 dotenv.config();
 
 const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
@@ -28,5 +27,22 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     }
 }
 
+const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
+    try{
+        let user_id;
+        const allTransactions = await prisma.transaction.findMany({
+            where: {
+                userId : user_id
+            }
+        })
+        return res.status(200).json({
+            message: "All transactions fetched",
+            data:allTransactions
+        })
+    }catch(error){
+        next(error)
+    }
+}
 
-export default {verifyPayment}
+
+export default {verifyPayment, getTransactions}

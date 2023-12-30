@@ -16,7 +16,6 @@ loginForm.addEventListener('submit', async function (event) {
             text: `${response.data.message}`,
             icon: "success"
           });
-        window.location.href('/products')
     } catch (error) {
         Swal.fire({
             icon: "error",
