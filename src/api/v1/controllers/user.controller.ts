@@ -91,13 +91,26 @@ const loginUser =async (req:Request, res:Response, next:NextFunction) => {
 
 const getUserId = async (req:Request, res:Response, next:NextFunction) => {
     try {
-            return res.json({
-                id:req.cookies.uid
-            })
+        return res.json({
+            id:req.cookies.uid
+        })
     }
     catch(error){
         console.log(error)
     }
 }
 
-export default {getUsers, registerUser, loginUser, getUserId}
+const logoutUser = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        res.clearCookie('isLoggedIn');
+        res.clearCookie('uid');
+        res.status(200).json({
+            message : "User logged Out succesfully."
+        })
+    }
+    catch(error){
+        console.log(error)
+    }
+}
+
+export default {getUsers, registerUser, loginUser, getUserId, logoutUser}
