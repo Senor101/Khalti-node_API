@@ -2,6 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "../../../../prisma/prisma.client";
 import bcrypt, { hash } from "bcrypt";
 
+interface User {
+    id:string
+}
+
 const getUsers =async (req:Request, res:Response, next:NextFunction) => {
     try {
         const allProducts = await prisma.user.findMany();
@@ -15,7 +19,6 @@ const getUsers =async (req:Request, res:Response, next:NextFunction) => {
         console.log(error)
     }
 }
-
 
 const registerUser =async (req:Request, res:Response, next:NextFunction) => {
     try {
@@ -49,7 +52,6 @@ const registerUser =async (req:Request, res:Response, next:NextFunction) => {
     }
 }
 
-
 const loginUser =async (req:Request, res:Response, next:NextFunction) => {
     try {
         const {email,password} : {email : string, password: string} = req.body;
@@ -59,14 +61,24 @@ const loginUser =async (req:Request, res:Response, next:NextFunction) => {
             }
         });
         if(!userExists) {
-            return
-            // return throwError("Invalid email or password", 404)
+            return res.status(403).json({
+                error: "Invalid email or password"
+            })
         }
         const isPasswordValid = await bcrypt.compare(password,userExists.password)
         if(!isPasswordValid){
-            return
-            // return throwError("Invalid email or password", 404)
+            return res.status(403).json({
+                error: "Invalid email or password"
+            })
         }
+        res.cookie('uid', userExists.id, {
+            path : '/',
+            httpOnly : true
+        })
+        res.cookie('isLoggedIn', true, {
+            path : '/',
+            httpOnly : true
+        })
         return res.status(200).json({
             message: "User logged in succesfully",
             data:userExists
@@ -77,5 +89,15 @@ const loginUser =async (req:Request, res:Response, next:NextFunction) => {
     }
 }
 
+const getUserId = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+            return res.json({
+                id:req.cookies.uid
+            })
+    }
+    catch(error){
+        console.log(error)
+    }
+}
 
-export default {getUsers, registerUser, loginUser}
+export default {getUsers, registerUser, loginUser, getUserId}

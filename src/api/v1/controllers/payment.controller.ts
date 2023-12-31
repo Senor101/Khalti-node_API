@@ -22,7 +22,7 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
         console.log(resBody.data);
 
         // TODO : manage user
-        let user="k";
+        let user=req.body.user.id;
         await prisma.transaction.create({
             data:{
                 amount : amount,
@@ -39,7 +39,7 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
 
 const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
     try{
-        let user_id;
+        let user_id = req.body.user.id;
         const allTransactions = await prisma.transaction.findMany({
             where: {
                 userId : user_id
