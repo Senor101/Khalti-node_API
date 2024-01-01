@@ -2,6 +2,7 @@ import express, {Express, NextFunction, Request, Response} from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import apiRouterv1 from "./api/v1/api";
+import CustomErrorHandler from "./api/v1/middleware/errohandler.middleware"
 import path from "path";
 
 const app:Express = express();
@@ -27,6 +28,7 @@ app.use(cookieParser());
 
 // API routes
 app.use("/api/v1",apiRouterv1);
+app.use(CustomErrorHandler);
 
 
 // Frontend Routes
