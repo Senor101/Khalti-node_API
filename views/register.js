@@ -24,19 +24,17 @@ signupForm.addEventListener('submit', async function (event) {
     try {
         response = await axios.post('http://localhost:8000/api/v1/users/register', userData);
         console.log(response)
-        if(response.status === 201)
-        { 
-            Swal.fire({
+        Swal.fire({
             title: "Success!",
             text: `${response.data.message}`,
             icon: "success"
-          });
-        }
+        });
+        window.location.href = '/login'
     } catch (error) {
         Swal.fire({
             title: "ERROR!",
             text: `${error.response.data.error}`,
             icon: "error"
-            });
+        });
     }
 });
