@@ -28,6 +28,7 @@ function getParameterByName(name) {
 }
 var productName = getParameterByName("name") || "Dummy";
 var productAmount = getParameterByName("price") || 10;
+var productId = getParameterByName("pid") || null;
 // console.log(productAmount, productName)
 
 document.getElementById("itemName").value = productName;
@@ -57,7 +58,8 @@ async function verifyPayment(payload) {
 var config = {
     // replace the publicKey with yours
     "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
-    "productIdentity": "1234567890",
+    "productUrl" : "http://localhost:8000/products/id",
+    "productIdentity": `${productId}`,
     "productName": `${productName}`,
     "paymentPreference": [
         "KHALTI",
@@ -86,7 +88,7 @@ var config = {
 var checkout = new KhaltiCheckout(config);
 var btn = document.getElementById("payment-button");
 btn.onclick = function (event ) {
-    var amountToPay = (parseInt(document.getElementById("amount").value))*100;
+    var amountToPay = (parseInt(document.getElementById("amount").value))*10;
     event.preventDefault();
     // minimum transaction amount must be 10, i.e 1000 in paisa.
     checkout.show({amount: amountToPay});

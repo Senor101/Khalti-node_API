@@ -77,7 +77,6 @@ const loginUser =async (req:Request, res:Response, next:NextFunction) => {
         })
         res.cookie('isLoggedIn', true, {
             path : '/',
-            httpOnly : true
         })
         return res.status(200).json({
             message: "User logged in succesfully",

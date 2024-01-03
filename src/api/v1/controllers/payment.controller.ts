@@ -8,8 +8,8 @@ dotenv.config();
 const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     try{
         console.log("Inside verify payment");
-        // console.log(req.body);
-        const {token,amount}:{token:string, amount: Decimal|number} = req.body;
+        console.log(req.body);
+        const {token,amount,product_identity, idx}:{token:string, amount: Decimal|number, product_identity: string, idx: string} = req.body;
         let config = {
             headers : {
                 "Authorization" : `Key ${process.env.KHALTI_SECRET_KEY}`
@@ -22,11 +22,13 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
         console.log(resBody.data);
 
         // TODO : manage user
-        let user=req.body.user.id;
+        let user : string =req.cookies.uid;
         await prisma.transaction.create({
             data:{
                 amount : amount,
-                userId:user
+                userId:user,
+                productsId: product_identity,
+                khalti_transaction_id: idx
             }
         })
         return res.json({

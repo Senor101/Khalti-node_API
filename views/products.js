@@ -1,6 +1,6 @@
 function checkIsLoggedIn() {
     const cookies = document.cookie.split(';');
-    console.log(cookies);
+    // console.log(cookies);
     for (let cookie of cookies) {
         const [name, value] = cookie.split('=');
         if (name.trim() === 'isLoggedIn' && value.trim() === 'true') {
@@ -14,8 +14,8 @@ if(!checkIsLoggedIn()){
     window.location.href = '/login'
 }
 
-function redirectToPayment(productName, productPrice){
-    window.location.href = `http://localhost:8000/payment?name=${productName}&price=${productPrice}`
+function redirectToPayment(productName, productPrice, productId){
+    window.location.href = `http://localhost:8000/payment?name=${productName}&price=${productPrice}&pid=${productId}`
 }
 // Fetch products from the backend API using Axios
 axios.get('http://localhost:8000/api/v1/products')
@@ -51,7 +51,7 @@ axios.get('http://localhost:8000/api/v1/products')
             purchaseButton.textContent = 'Purchase';
 
             purchaseButton.addEventListener('click', () => {
-                redirectToPayment(product.name, product.price)
+                redirectToPayment(product.name, product.price, product.id)
             })
 
             // Append elements to the product div
