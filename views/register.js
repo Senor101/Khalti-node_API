@@ -1,6 +1,19 @@
 // JavaScript code for registration using Axios
 const signupForm = document.getElementById('signupForm');
 
+function validateForm() {
+    // Check if either of the radio buttons is selected
+    const userTypeUser = document.getElementById('userTypeUser');
+    const userTypeAdmin = document.getElementById('userTypeAdmin');
+
+    if (!userTypeUser.checked && !userTypeAdmin.checked) {
+        // Show an alert if neither radio button is selected
+        return false; // Prevent form submission
+    }
+
+    return true; // Allow form submission if one is selected
+}
+
 signupForm.addEventListener('submit', async function (event) {
     event.preventDefault();
 
@@ -13,6 +26,10 @@ signupForm.addEventListener('submit', async function (event) {
     if (nameInput.value.trim() === '' || emailInput.value.trim() === '' || passwordInput.value.trim() === '') {
         alert('Please fill in all fields.');
         return;
+    }
+    if(!validateForm()){
+        alert('Please select a user type (USER or ADMIN)');
+        return
     }
 
     // Create user data object

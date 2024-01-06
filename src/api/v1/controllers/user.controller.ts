@@ -2,10 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import prisma from "../../../../prisma/prisma.client";
 import bcrypt, { hash } from "bcrypt";
 
-interface User {
-    id:string
-}
-
 const getUsers =async (req:Request, res:Response, next:NextFunction) => {
     try {
         const allProducts = await prisma.user.findMany();
@@ -23,23 +19,24 @@ const getUsers =async (req:Request, res:Response, next:NextFunction) => {
 const registerUser =async (req:Request, res:Response, next:NextFunction) => {
     try {
         // console.log(req.body)
-        const {email, password, name}: {email:string, password: string, name:string} = req.body;
+        const {email, password, name,role}: {email:string, password: string, name:string,role:'USER' | 'ADMIN' | undefined} = req.body;
         const userExists = await prisma.user.findUnique({
             where : {
                 email: email
             }
         });
-        if(userExists) {
+        if (userExists) {
             return res.status(409).json({
                 error: "User with the email already exists"
             })
         }
-        const hashedPassword = await bcrypt.hash(password,12);
+        const hashedPassword = await bcrypt.hash(password, 12);
         const newUser = await prisma.user.create({
-            data:{
+            data: {
                 name: name,
-                email : email,
-                password : hashedPassword
+                email: email,
+                password: hashedPassword,
+                role: role
             }
         });
         return res.status(201).json({
