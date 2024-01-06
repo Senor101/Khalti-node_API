@@ -39,6 +39,19 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     }
 }
 
+const getAllTransactions = async (req:Request, res:Response, next:NextFunction) => {
+    try{
+        const allTransactions = await prisma.transaction.findMany()
+        return res.status(200).json({
+            message: "All transactions fetched",
+            data:allTransactions
+        })
+    }catch(error){
+        next(error)
+    }
+}
+
+
 const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
     try{
         let user_id : string = req.cookies.uid;
