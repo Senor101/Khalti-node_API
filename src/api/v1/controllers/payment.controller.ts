@@ -41,10 +41,17 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
 
 const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
     try{
-        let user_id = req.body.user.id;
+        let user_id : string = req.cookies.uid;
+        if(!user_id) 
+            return res.status(400).json({
+                error: "User not logged in"
+            })
         const allTransactions = await prisma.transaction.findMany({
             where: {
-                userId : user_id
+                userId : user_id,
+            },
+            include:{
+                product:true
             }
         })
         return res.status(200).json({

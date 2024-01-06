@@ -64,5 +64,13 @@ app.get("/login", (req:Request, res:Response, next: NextFunction) => {
     }
 })
 
+app.get("/transactions", (req:Request, res:Response, next: NextFunction) => {
+    try{
+        return res.sendFile(path.join(__dirname,"/../views/transactions.html"))
+    }catch(error){
+        next(error)
+    }
+})
+
 
 export default app;

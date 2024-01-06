@@ -1,7 +1,6 @@
-
 function checkIsLoggedIn() {
     const cookies = document.cookie.split(';');
-    console.log(cookies);
+    // console.log(cookies);
     for (let cookie of cookies) {
         const [name, value] = cookie.split('=');
         if (name.trim() === 'isLoggedIn' && value.trim() === 'true') {
@@ -14,8 +13,6 @@ function checkIsLoggedIn() {
 if(!checkIsLoggedIn()){
     window.location.href = '/login'
 }
-
-
 
 function getParameterByName(name) {
     let url = window.location.href;
@@ -31,10 +28,9 @@ var productAmount = getParameterByName("price") || 10;
 var productId = getParameterByName("pid") || null;
 // console.log(productAmount, productName)
 
-document.getElementById("itemName").value = productName;
-document.getElementById("amount").value = productAmount;
 
 async function verifyPayment(payload) {
+    console.log(payload);
     axios.post("http://localhost:8000/api/v1/payment/verify-payment",payload)
     .then(response => {
         console.log(response)
@@ -58,7 +54,7 @@ async function verifyPayment(payload) {
 var config = {
     // replace the publicKey with yours
     "publicKey": "test_public_key_77bac81b32ed4e95b995bfbe502a3ab8",
-    "productUrl" : "http://localhost:8000/products/id",
+    "productUrl" : `http://localhost:8000/products/id`,
     "productIdentity": `${productId}`,
     "productName": `${productName}`,
     "paymentPreference": [
@@ -69,10 +65,11 @@ var config = {
         "SCT",
         ],
     "eventHandler": {
-        onSuccess (payload) {
+        async onSuccess (payload) {
             // hit merchant api for initiating verfication
             // console.log(payload);
-            verifyPayment(payload);
+            await verifyPayment(payload);
+            window.location.href = "/products"
             // alert("verified")
         },
         onError (error) {
@@ -84,6 +81,14 @@ var config = {
     }
 };
 
+var productName = getParameterByName("name") || "Dummy";
+var productAmount = getParameterByName("price") || 10;
+var productId = getParameterByName("pid") || null;
+
+// console.log(productAmount, productName)
+
+document.getElementById("itemName").value = productName;
+document.getElementById("amount").value = productAmount;
 
 var checkout = new KhaltiCheckout(config);
 var btn = document.getElementById("payment-button");
