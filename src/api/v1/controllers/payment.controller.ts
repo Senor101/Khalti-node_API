@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import axios from "axios";
+
 import prisma from "../../../../prisma/prisma.client";
 import { Decimal } from "@prisma/client/runtime/library";
 dotenv.config();
@@ -55,10 +56,6 @@ const getAllTransactions = async (req:Request, res:Response, next:NextFunction) 
 const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
     try{
         let user_id : string = req.cookies.uid;
-        if(!user_id) 
-            return res.status(400).json({
-                error: "User not logged in"
-            })
         const allTransactions = await prisma.transaction.findMany({
             where: {
                 userId : user_id,

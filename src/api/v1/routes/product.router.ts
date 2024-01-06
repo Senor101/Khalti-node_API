@@ -4,8 +4,10 @@ import productController from "../controllers/product.controller";
 
 const router = Router();
 
-router.get("/", productController.getProducts);
+import {isAdmin,isAuthenticated} from "../middleware/auth.middleware"
 
-router.post("/", productController.postProducts);
+router.get("/",isAuthenticated, productController.getProducts);
+
+router.post("/", isAdmin, productController.postProducts);
 
 export default router;

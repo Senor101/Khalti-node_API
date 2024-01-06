@@ -4,8 +4,12 @@ import paymentController from "../controllers/payment.controller"
 
 const router = express.Router();
 
-router.post("/verify-payment",paymentController.verifyPayment)
+import {isAdmin,isAuthenticated} from "../middleware/auth.middleware"
 
-router.get("/transactions", paymentController.getTransactions);
+router.post("/verify-payment",isAuthenticated, paymentController.verifyPayment)
+
+router.get("/transactions",isAuthenticated, paymentController.getTransactions);
+
+// router.get("/transactions/all",)
 
 export default router;
