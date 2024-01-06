@@ -9,7 +9,7 @@ const verifyPayment =async (req:Request, res:Response, next:NextFunction) => {
     try{
         console.log("Inside verify payment");
         console.log(req.body);
-        const {token,amount,product_identity, idx}:{token:string, amount: Decimal|number, product_identity: string, idx: string} = req.body;
+        const {token,amount,product_identity, idx}:{token:string, amount: number | Decimal, product_identity: string, idx: string} = req.body;
         let config = {
             headers : {
                 "Authorization" : `Key ${process.env.KHALTI_SECRET_KEY}`

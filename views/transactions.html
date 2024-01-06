@@ -45,7 +45,7 @@
 
           dateCell.textContent = new Date(transaction.createdAt).toLocaleDateString(); // Format date
           productNameCell.textContent = transaction.product.name;
-          priceCell.textContent = `$${(transaction.amount / 100).toFixed(2)}`; // Assuming amount is in cents
+          priceCell.textContent = `$${(transaction.amount / 10).toFixed(2)}`; // Assuming amount is in cents
 
           row.appendChild(dateCell);
           row.appendChild(productNameCell);
