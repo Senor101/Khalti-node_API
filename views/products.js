@@ -36,14 +36,21 @@ axios.get('http://localhost:8000/api/v1/products')
             const productName = document.createElement('h2');
             productName.className = 'text-xl font-bold';
             productName.textContent = product.name;
-
+            
             const productDescription = document.createElement('p');
             productDescription.className = 'text-sm text-gray-600';
             productDescription.textContent = product.description;
-
+            
             const productPrice = document.createElement('p');
             productPrice.className = 'text-lg font-bold mt-2';
             productPrice.textContent = `$${product.price}`;
+            
+            // Create an image element for the product image
+            const productImage = document.createElement('img');
+            productImage.className = 'w-auto h-auto mt-2 rounded-md';
+            productImage.src = product.image; // Assuming product.image contains the image URL
+            productImage.alt = product.name; // Set alt attribute for accessibility
+            
 
             // Create a purchase button
             const purchaseButton = document.createElement('button');
@@ -58,6 +65,7 @@ axios.get('http://localhost:8000/api/v1/products')
             productDiv.appendChild(productName);
             productDiv.appendChild(productDescription);
             productDiv.appendChild(productPrice);
+            productDiv.appendChild(productImage); // Append the product image
             productDiv.appendChild(purchaseButton);
 
             // Append the product div to the productList container

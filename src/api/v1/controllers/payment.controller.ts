@@ -56,14 +56,34 @@ const getAllTransactions = async (req:Request, res:Response, next:NextFunction) 
 const getTransactions = async (req:Request, res:Response, next:NextFunction) => {
     try{
         let user_id : string = req.cookies.uid;
-        const allTransactions = await prisma.transaction.findMany({
-            where: {
-                userId : user_id,
-            },
-            include:{
-                product:true
+        let allTransactions;
+        const userDetails = await prisma.user.findUnique({
+            where:{
+                id:user_id
             }
         })
+        if(!userDetails){
+            return res.status(404).json({
+                error:"User not authorized"
+            })
+        }
+        if(userDetails.role === "ADMIN"){
+            allTransactions = await prisma.transaction.findMany({
+                include:{
+                    product:true,
+                    User:true
+                },
+            })
+        }
+        else{
+            allTransactions = await prisma.transaction.findMany({
+                where: {
+                    userId : user_id,
+                },
+                include:{
+                    product:true
+                }
+            })}
         return res.status(200).json({
             message: "All transactions fetched",
             data:allTransactions
@@ -74,4 +94,4 @@ const getTransactions = async (req:Request, res:Response, next:NextFunction) => 
 }
 
 
-export default {verifyPayment, getTransactions}
+export default {verifyPayment, getTransactions, getAllTransactions}

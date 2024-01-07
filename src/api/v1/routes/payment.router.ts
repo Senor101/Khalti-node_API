@@ -10,6 +10,6 @@ router.post("/verify-payment",isAuthenticated, paymentController.verifyPayment)
 
 router.get("/transactions",isAuthenticated, paymentController.getTransactions);
 
-// router.get("/transactions/all",)
+router.get("/transactions/all",isAdmin, paymentController.getAllTransactions)
 
 export default router;

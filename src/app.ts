@@ -32,7 +32,7 @@ app.use(CustomErrorHandler);
 
 
 // Frontend Routes
-app.get("/products", (req:Request, res:Response, next: NextFunction) => {
+app.get(["/","/products"], (req:Request, res:Response, next: NextFunction) => {
     try{
         return res.sendFile(path.join(__dirname,"/../views/products.html"))
     }catch(error){
@@ -71,6 +71,15 @@ app.get("/transactions", (req:Request, res:Response, next: NextFunction) => {
         next(error)
     }
 })
+
+app.get("/transactions/all", (req:Request, res:Response, next: NextFunction) => {
+    try{
+        return res.sendFile(path.join(__dirname,"/../views/alltransaction.html"))
+    }catch(error){
+        next(error)
+    }
+})
+
 
 
 export default app;
