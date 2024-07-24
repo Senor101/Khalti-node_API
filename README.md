@@ -14,7 +14,7 @@ This project is a simplified sales webservice implementing **khalti**. This aims
 
 3. Access Management:
 
-- You have to logged in to view products.
+- You have to be logged in to view products.
 - Only admin can add new Products.
 - Features like transaction, payment verification are only accessible to logged in users.
 
